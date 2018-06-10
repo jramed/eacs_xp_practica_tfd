@@ -39,14 +39,10 @@ public class Variable extends Term {
     @Override
     public boolean equal(Term obj) {
         boolean sameObjectClass = obj instanceof Variable;
-        if (!sameObjectClass) {
-            return false;
-        }
-
         int sameValue = Float.compare(this.value, obj.getValue());
-        boolean sameName = this.hasName(((Variable) obj).getName());
+        boolean sameName = obj.hasName(this.getName());
 
-        return (sameValue == 0) && sameName;
+        return sameObjectClass && (sameValue == 0) && sameName;
     }
 
     private String getName() {
