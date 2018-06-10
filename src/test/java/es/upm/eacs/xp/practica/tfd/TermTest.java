@@ -93,4 +93,29 @@ public class TermTest {
         assertThat(term1.getValue(), lessThan(term2.getValue()));
         assertFalse(term1.equal(term2));
     }
+
+    @Test
+    public void givenAPositiveValue_whenClonned_thenReturnAValueEqualToIt() {
+        Term term1 = new Term(aFloat(10000.00001f));
+        Term term2 = term1.clon();
+        assertThat(term1.getValue(), equalTo(term2.getValue()));
+        assertTrue(term1.equal(term2));
+
+    }
+
+    @Test
+    public void givenANegativeValue_whenClonned_thenReturnAValueEqualToIt() {
+        Term term1 = new Term(aFloat(-0.35f));
+        Term term2 = term1.clon();
+        assertThat(term1.getValue(), equalTo(term2.getValue()));
+        assertTrue(term1.equal(term2));
+    }
+
+    @Test
+    public void givenAZeroValue_whenClonned_thenReturnAValueEqualToIt() {
+        Term term1 = new Term(aFloat(-0.00000f));
+        Term term2 = term1.clon();
+        assertThat(term1.getValue(), equalTo(term2.getValue()));
+        assertTrue(term1.equal(term2));
+    }
 }

@@ -13,8 +13,12 @@ public class Term {
 
     public boolean equal(Term obj) {
         boolean sameObjectClass = obj instanceof Term;
-        int sameValue = Float.compare(this.value, ((Term) obj).getValue());
+        int sameValue = Float.compare(this.value, obj.getValue());
         return sameObjectClass && (sameValue == 0);
+    }
+
+    public Term clon() {
+        return new Term(this.value);
     }
 
 }
