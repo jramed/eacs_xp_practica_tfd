@@ -195,6 +195,13 @@ public class VariableTest {
     }
 
     @Test
+    public void givenAConstantAndAVariable_whenCompared_AreNotEquals() {
+        Constant constant1 = new Constant(aFloat(-29.987987f));
+        Variable variable1 = new Variable(aFloat(-29.987987f), varName("X"));
+        assertFalse(variable1.equal(constant1));
+    }
+
+    @Test
     public void givenABigPositiveVariable_whenToString_thenReturnTheValueAndNameAsASingleString() {
         Variable variable1 = new Variable(aFloat(100000.32f), varName("Var1"));
         assertThat(variable1.toString(), equalTo("100000.32Var1"));

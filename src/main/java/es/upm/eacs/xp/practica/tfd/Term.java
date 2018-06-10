@@ -3,7 +3,7 @@ package es.upm.eacs.xp.practica.tfd;
 import java.util.Set;
 
 public class Term {
-    private float value;
+    protected float value;
 
     public Term(float value) {
         this.value = value;
