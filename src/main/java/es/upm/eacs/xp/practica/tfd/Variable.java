@@ -13,7 +13,7 @@ public class Variable {
 	}
 
 	public boolean hasName(String varName) {
-		boolean isEqual = name.equalsIgnoreCase(varName);
+		boolean isEqual = this.name.equalsIgnoreCase(varName);
 		return isEqual;	
 	}
 
@@ -26,6 +26,23 @@ public class Variable {
 			}		
 		}
 		return isEqual;
+	}
+
+	public float getValue() {
+		return this.value;
+	}
+
+//	@Override
+	public boolean equal(Variable obj) {
+		boolean sameObjectClass = obj instanceof Variable;
+		int sameValue = Float.compare(this.value, ((Variable) obj).getValue());
+		boolean sameName = this.hasName(obj.getName());
+		
+		return sameObjectClass && (sameValue == 0) && sameName;
+	}
+
+	private String getName() {
+		return this.name;
 	}
 
 }

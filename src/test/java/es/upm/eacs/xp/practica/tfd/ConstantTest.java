@@ -88,7 +88,7 @@ public class ConstantTest {
 	}
 	
 	@Test
-	public void givenTwoContanstEqualToZeroButDifferentSign_whenCte1IsEqualThanCt2_thenEquals() {
+	public void givenTwoContanst_whenEqualToZeroButDiffenteSign_thenNonEquals() {
 		Constant constant1 = new Constant(aFloat(-0.00f));
 		Constant constant2 = new Constant(aFloat(0.00f));
 		assertThat(constant1.getValue(), lessThan(constant2.getValue()));
