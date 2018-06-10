@@ -193,4 +193,29 @@ public class VariableTest {
         assertThat(variable1.getValue(), equalTo(variable2.getValue()));
         assertTrue(variable1.equal(variable2));
     }
+
+    @Test
+    public void givenABigPositiveVariable_whenToString_thenReturnTheValueAndNameAsASingleString() {
+        Variable variable1 = new Variable(aFloat(100000.32f), varName("Var1"));
+        assertThat(variable1.toString(), equalTo("100000.32Var1"));
+    }
+
+    @Test
+    public void givenASmallPositiveVariable_whenToString_thenReturnTheValueAndNameAsASingleString() {
+        Variable variable1 = new Variable(aFloat(0.000000000077f), varName("Var1"));
+        assertThat(variable1.toString(), equalTo("7.7E-11Var1"));
+    }
+
+    @Test
+    public void givenASmallNegativeVariable_whenToString_thenReturnTheValueAndNameAsASingleString() {
+        Variable variable1 = new Variable(aFloat(-0.0000031f), varName("Var1"));
+        assertThat(variable1.toString(), equalTo("-3.1E-6Var1"));
+    }
+
+    @Test
+    public void givenABigNegativeVariable_whenToString_thenReturnTheValueAndNameAsASingleString() {
+        Variable variable1 = new Variable(aFloat(-1000000.99f), varName("Var1"));
+        assertThat(variable1.toString(), equalTo("-1000001.0Var1"));
+    }
+
 }

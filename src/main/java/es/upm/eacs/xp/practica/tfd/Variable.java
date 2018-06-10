@@ -45,8 +45,18 @@ public class Variable {
         return this.name;
     }
 
+    // @Override
     public Variable clon() {
         return new Variable(this.value, this.name);
+    }
+
+    // @Override
+    @Override
+    public String toString() {
+        String theValue = Float.toString(this.value);
+        // String theValue = String.valueOf(this.value);
+
+        return theValue + this.name;
     }
 
 }
