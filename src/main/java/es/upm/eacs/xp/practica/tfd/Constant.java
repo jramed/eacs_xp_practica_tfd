@@ -19,9 +19,4 @@ public class Constant extends Term {
         return new Constant(this.value);
     }
 
-    @Override
-    public float getValue() {
-        return this.value;
-    }
-
 }
