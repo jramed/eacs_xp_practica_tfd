@@ -4,12 +4,10 @@ import java.util.Set;
 
 public class Variable extends Term {
 
-    // private float value;
     private String name;
 
     public Variable(float value, String name) {
         super(value);
-        // this.value = value;
         this.name = name;
     }
 
@@ -29,11 +27,6 @@ public class Variable extends Term {
             }
         }
         return isEqual;
-    }
-
-    @Override
-    public float getValue() {
-        return this.value;
     }
 
     @Override
