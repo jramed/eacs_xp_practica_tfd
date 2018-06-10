@@ -1,5 +1,7 @@
 package es.upm.eacs.xp.practica.tfd;
 
+import java.util.Set;
+
 public class Term {
     private float value;
 
@@ -22,6 +24,10 @@ public class Term {
     }
 
     public boolean hasName(String varName) {
+        return false;
+    }
+
+    public boolean hasName(Set<String> setNames) {
         return false;
     }
 

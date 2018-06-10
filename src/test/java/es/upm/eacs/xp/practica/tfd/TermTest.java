@@ -7,6 +7,9 @@ import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.junit.Test;
 
 public class TermTest {
@@ -127,6 +130,17 @@ public class TermTest {
     public void givenATerm_whenAskedForItsName_thenReturnFalse() {
         Term term1 = new Term(aFloat(0.0f));
         assertFalse(term1.hasName(varName("xyz")));
+    }
+
+    @Test
+    public void givenATerm_whenAskedIfASetOfNamesContainItsName_thenReturnFalse() {
+        Term term1 = new Term(aFloat(2.5f));
+        Set<String> setNames = new HashSet<String>();
+        setNames.add("variable");
+        setNames.add("x");
+        setNames.add("Y");
+        setNames.add("Z");
+        assertFalse(term1.hasName(setNames));
     }
 
 }
