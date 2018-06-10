@@ -31,4 +31,12 @@ public class Term {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return Float.toString(this.value);
+    }
+
+    public void multiply(float value) {
+        this.value = this.value * value;
+    }
 }
