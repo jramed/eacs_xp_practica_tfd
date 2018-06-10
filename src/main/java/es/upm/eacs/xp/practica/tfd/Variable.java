@@ -50,7 +50,6 @@ public class Variable {
         return new Variable(this.value, this.name);
     }
 
-    // @Override
     @Override
     public String toString() {
         String theValue = Float.toString(this.value);
