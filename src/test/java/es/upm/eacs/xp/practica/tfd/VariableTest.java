@@ -165,8 +165,32 @@ public class VariableTest {
     @Test
     public void givenTwoValues_whenEqualToZeroAndDifferentName_thenNonEquals() {
         Variable variable1 = new Variable(aFloat(0.00f), varName("AnotherVariable"));
-        Variable variable2 = new Variable(aFloat(0.00f), varName("variable1"));
+        Variable variable2 = new Variable(aFloat(0.00f), varName("variable2"));
         assertThat(variable1.getValue(), equalTo(variable2.getValue()));
         assertFalse(variable1.equal(variable2));
+    }
+
+    @Test
+    public void givenAPositiveVariable_whenClonned_thenReturnAVariableEqualToIt() {
+        Variable variable1 = new Variable(aFloat(10000000.032f), varName("variable1"));
+        Variable variable2 = variable1.clon();
+        assertThat(variable1.getValue(), equalTo(variable2.getValue()));
+        assertTrue(variable1.equal(variable2));
+    }
+
+    @Test
+    public void givenANegativeVariable_whenClonned_thenReturnAVariableEqualToIt() {
+        Variable variable1 = new Variable(aFloat(-100000000.0f), varName("variable1"));
+        Variable variable2 = variable1.clon();
+        assertThat(variable1.getValue(), equalTo(variable2.getValue()));
+        assertTrue(variable1.equal(variable2));
+    }
+
+    @Test
+    public void givenAZeroVariable_whenClonned_thenReturnAVariableEqualToIt() {
+        Variable variable1 = new Variable(aFloat(000000.00000000000000000000f), varName("variable1"));
+        Variable variable2 = variable1.clon();
+        assertThat(variable1.getValue(), equalTo(variable2.getValue()));
+        assertTrue(variable1.equal(variable2));
     }
 }
