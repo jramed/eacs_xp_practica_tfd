@@ -39,4 +39,9 @@ public class Term {
     public void multiply(float value) {
         this.value = this.value * value;
     }
+
+    public void dispatch(TermVisitor termVisitor) {
+        // the sub class must implement it
+        assert false;
+    }
 }

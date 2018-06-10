@@ -38,7 +38,7 @@ public class Variable extends Term {
         return sameObjectClass && (sameValue == 0) && sameName;
     }
 
-    private String getName() {
+    public String getName() {
         return this.name;
     }
 
@@ -52,6 +52,11 @@ public class Variable extends Term {
         String theValue = Float.toString(this.value);
 
         return theValue + this.name;
+    }
+
+    @Override
+    public void dispatch(TermVisitor termVisitor) {
+        termVisitor.visit(this);
     }
 
 }

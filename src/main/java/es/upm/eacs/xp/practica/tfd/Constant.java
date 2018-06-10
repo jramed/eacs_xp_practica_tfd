@@ -19,4 +19,8 @@ public class Constant extends Term {
         return new Constant(this.value);
     }
 
+    @Override
+    public void dispatch(TermVisitor termVisitor) {
+        termVisitor.visit(this);
+    }
 }
