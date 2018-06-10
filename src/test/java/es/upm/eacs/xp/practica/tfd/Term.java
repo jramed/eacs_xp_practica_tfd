@@ -21,4 +21,8 @@ public class Term {
         return new Term(this.value);
     }
 
+    public boolean hasName(String varName) {
+        return false;
+    }
+
 }

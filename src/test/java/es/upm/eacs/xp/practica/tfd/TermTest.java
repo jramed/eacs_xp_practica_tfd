@@ -15,6 +15,10 @@ public class TermTest {
         return number;
     }
 
+    public static String varName(String name) {
+        return name;
+    }
+
     @Test
     public void givenTwoPositiveValues_whenValue1IsFewerThanValue2AndSameName_thenNotEquals() {
         Term term1 = new Term(aFloat(2.5f));
@@ -118,4 +122,11 @@ public class TermTest {
         assertThat(term1.getValue(), equalTo(term2.getValue()));
         assertTrue(term1.equal(term2));
     }
+
+    @Test
+    public void givenATerm_whenAskedForItsName_thenReturnFalse() {
+        Term term1 = new Term(aFloat(0.0f));
+        assertFalse(term1.hasName(varName("xyz")));
+    }
+
 }
