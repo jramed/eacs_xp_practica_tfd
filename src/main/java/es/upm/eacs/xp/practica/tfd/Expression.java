@@ -38,6 +38,18 @@ public class Expression {
         return 0.0f;
     }
 
+    public float getValue(String name) {
+        assert !this.empty();
+
+        for (Term term : this.termList) {
+            if (term.hasName(name)) {
+                return term.getValue();
+            }
+        }
+
+        return 0.0f;
+    }
+
     public Set<String> getNameSet() {
         assert !this.empty();
 
