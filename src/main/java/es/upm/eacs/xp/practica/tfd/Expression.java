@@ -79,8 +79,29 @@ public class Expression {
             }
         }
 
-        if (0 != value || 0 == expression.termList.size()) {
+        if (0f != value || 0 == expression.termList.size()) {
             expression.add(new Constant(value));
+        }
+        this.termList = expression.termList;
+
+    }
+
+    public void simplify(String name) {
+        assert !this.empty();
+
+        Expression expression = new Expression();
+        float value = 0.0f;
+
+        for (Term term : this.termList) {
+            if (term.hasName(name)) {
+                value = value + term.getValue();
+            } else {
+                expression.add(term.clon());
+            }
+        }
+
+        if (0f != value) {
+            expression.add(new Variable(value, name));
         }
         this.termList = expression.termList;
 

@@ -344,12 +344,53 @@ public class ExpressionTest {
     }
 
     @Test
-    public void giveAnExpressionWithSeveralVariableRepeated_whenSimplify_thenAllVariableSimplified() {
+    public void giveAnExpressionWithNonVariableRepeated_whenSimplifyVar_thenKeepTheSameExpr() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Expression expr1 = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
 
+        expr1.simplify(varName("X"));
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWhitoutRepeatedTerms_whenSimplifyVar_thenKeepTheSameExpr() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+
+        expr1.simplify(varName("X"));
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithSeveralVariableRepeated_whenSimplifyVar_thenVariableSimplified() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("X"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Variable var4 = buildVariable(aFloat(-1.5f), varName("X"));
+        Expression expr1 = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(var4).term(var3).build();
+
+        expr1.simplify(varName("X"));
+        assertTrue(expr1.equal(result));
     }
 
     @Test
     public void giveAnExpressionWithVariableNulable_whenSimplify_thenExprWithoutThatVariable() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-2.0f), varName("X"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Variable var4 = buildVariable(aFloat(-0.0f), varName("X"));
+        Expression expr1 = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(var3).build();
 
+        expr1.simplify(varName("X"));
+        assertTrue(expr1.equal(result));
     }
 }
