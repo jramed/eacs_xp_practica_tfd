@@ -2,6 +2,9 @@ package es.upm.eacs.xp.practica.tfd;
 
 import java.util.Set;
 
+//This class can be abstract and its method clon and dispatch also
+//By being not abstract we allow to test its methods
+//Though, if it is abstract we can test then in any of his derived classes.
 public class Term {
     protected float value;
 
@@ -20,7 +23,9 @@ public class Term {
     }
 
     public Term clon() {
-        return new Term(this.value);
+        // the sub class must implement it
+        assert false;
+        return null;
     }
 
     public boolean hasName(String varName) {
