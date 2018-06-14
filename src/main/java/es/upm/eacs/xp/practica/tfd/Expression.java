@@ -16,12 +16,12 @@ public class Expression {
     }
 
     public void add(Term term) {
-        this.termList.add(term);
+        this.termList.add(term.clon());
     }
 
     public void add(Expression expr1) {
         for (Term term : expr1.termList) {
-            this.add(term);
+            this.add(term.clon());
         }
     }
 
@@ -62,6 +62,70 @@ public class Expression {
         for (Term term : termList) {
             term.multiply(value);
         }
+    }
+
+    public void simplify() {
+        assert !this.empty();
+
+        Set<String> myNameSet = this.getNameSet();
+        Expression expression = new Expression();
+        float value = 0.0f;
+
+        for (Term term : termList) {
+            if (!term.hasName(myNameSet)) {
+                value = value + term.getValue();
+            } else {
+                expression.add(term.clon());
+            }
+        }
+
+        if (0 != value || 0 == expression.termList.size()) {
+            expression.add(new Constant(value));
+        }
+        this.termList = expression.termList;
+
+    }
+
+    public boolean equal(Expression expression) {
+
+        if (this == expression) {
+            System.out.println("expression equal");
+            return true;
+        }
+
+        if (expression == null) {
+            System.out.println("Expression null");
+            return false;
+        }
+
+        // We could simplify both expression before do the comparison
+        // but that should be done before calling to this method
+        if (this.termList.size() != expression.termList.size()) {
+            System.out.println("Size different: " + this.termList.size() + " versus " + expression.termList.size());
+            return false;
+        }
+
+        boolean results[] = new boolean[this.termList.size()];
+        int pos = 0;
+        for (Term termThis : this.termList) {
+            boolean isEqual = false;
+            for (Term termObj : expression.termList)
+                if (termThis.equal(termObj)) {
+                    System.out.println(
+                            "Term : " + termObj.getValue() + " is in the set of this.terms: " + termThis.getValue());
+                    isEqual = true;
+                    break;
+                }
+            results[pos] = isEqual;
+            pos++;
+        }
+
+        boolean resultEqual = true;
+        for (boolean result : results) {
+            System.out.println("previous equality: " + resultEqual + " the result for this term is: " + result);
+            resultEqual &= result;
+        }
+        return resultEqual;
     }
 
 }

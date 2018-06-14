@@ -143,14 +143,12 @@ public class ExpressionTest {
 
     @Test
     public void givenAnExpressionWithMultipleVariableAndAConstant_WhenAskedForValueWithName_thenReturnValue() {
-        Expression expr1 = new Expression();
         Variable var1 = buildVariable(aFloat(0.023f), varName("X"));
         Variable var2 = buildVariable(aFloat(-67f), varName("Y"));
         Variable var3 = buildVariable(aFloat(1.34f), varName("Z"));
-        expr1.add(var1);
-        expr1.add(var2);
-        expr1.add(var3);
+        Expression expr1 = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
         expr1.add(buildConstant(aFloat(-52f)));
+
         assertThat(var1.getValue(), equalTo(expr1.getValue(varName("X"))));
         assertThat(var2.getValue(), equalTo(expr1.getValue(varName("Y"))));
         assertThat(var3.getValue(), equalTo(expr1.getValue(varName("Z"))));
@@ -159,34 +157,199 @@ public class ExpressionTest {
 
     @Test
     public void givenAnExpressionWithMultipleVariableAndAConstant_WhenAskedForValueWithNoName_thenReturnValue() {
-        Expression expr1 = new Expression();
         Variable var1 = buildVariable(aFloat(0.023f), varName("X"));
         Variable var2 = buildVariable(aFloat(-67f), varName("Y"));
         Variable var3 = buildVariable(aFloat(1.34f), varName("Z"));
         Constant cte1 = buildConstant(aFloat(-52f));
-        expr1.add(var1);
-        expr1.add(var2);
-        expr1.add(var3);
-        expr1.add(cte1);
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+
         assertThat(cte1.getValue(), equalTo(expr1.getValue()));
     }
 
     @Test
     public void giveAnExpression_whenMultipleByAConstant_thenAllTermsAreMultiplyByTheNumber() {
-        Expression expr1 = new Expression();
         Variable var1 = buildVariable(aFloat(2f), varName("X"));
         Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
         Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
         Constant cte1 = buildConstant(aFloat(5.1f));
-        expr1.add(var1);
-        expr1.add(var2);
-        expr1.add(var3);
-        expr1.add(cte1);
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+
         float aMultiplier = 5.5f;
         expr1.multiply(aMultiplier);
+
         assertThat((2f * aMultiplier), equalTo(expr1.getValue(varName("X"))));
         assertThat((-3.5f * aMultiplier), equalTo(expr1.getValue(varName("Y"))));
         assertThat((4.2f * aMultiplier), equalTo(expr1.getValue(varName("Z"))));
         assertThat((5.1f * aMultiplier), equalTo(expr1.getValue()));
+    }
+
+    @Test
+    public void givenAnExpressionWithConstant_whenCheckedEqualityWithAnotherIdenticalExpression_thenequal() {
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).build();
+        Expression result = new ExpressionBuilder().term(cte1).build();
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithSeveralVariables_whenCheckedEqualityWithAnotherIdenticalExpression_thenequal() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Expression expr1 = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
+
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithSeveralTerms_whenCheckedEqualityWithAnotherIdenticalExpression_thenequal() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void givenAnExpressionWithConstant_whenCheckedEqualityWithAnEmptyExpression_thenNonEqual() {
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).build();
+        Expression result = new ExpressionBuilder().build();
+        assertFalse(expr1.equal(result));
+    }
+
+    @Test
+    public void givenAnExpressionWithConstant_whenCheckedEqualityWithADifferentExpression_thenNonEqual() {
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Constant cte2 = buildConstant(aFloat(1.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).build();
+        Expression result = new ExpressionBuilder().term(cte2).build();
+        assertFalse(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithSeveralVariables_whenCheckedEqualityWithADifferentExpression_thenNonEqual() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Expression expr1 = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(var2).term(var3).build();
+
+        assertFalse(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithSeveralTerms_whenCheckedEqualityWithADifferentExpression_thenNonEqual() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
+
+        assertFalse(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithAConstant_whenSimplify_thenKeepTheSameExpr() {
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).build();
+        Expression result = new ExpressionBuilder().term(cte1).build();
+
+        expr1.simplify();
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithAConstantAndAVariable_whenSimplify_thenKeepTheSameExpr() {
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).build();
+        Expression result = new ExpressionBuilder().term(cte1).term(var1).build();
+
+        expr1.simplify();
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithServeralConstant_whenSimplify_thenConstantsSimplified() {
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Constant cte2 = buildConstant(aFloat(4.0f));
+        Constant cte3 = buildConstant(aFloat(1.0f));
+        Constant cte4 = buildConstant(aFloat(0.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte2).term(cte3).term(cte4).build();
+        Expression result = new ExpressionBuilder().term(cte1).build();
+
+        expr1.simplify();
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithServeralConstantAndVariables_whenSimplify_thenJustOneConstantAndTheSameVar() {
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Constant cte2 = buildConstant(aFloat(4.0f));
+        Constant cte3 = buildConstant(aFloat(1.0f));
+        Constant cte4 = buildConstant(aFloat(0.1f));
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Expression expr1 = new ExpressionBuilder().term(cte2).term(cte3).term(cte4).term(var1).term(var2).term(var3)
+                .build();
+        Expression result = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+
+        expr1.simplify();
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWhitoutRepeatedTerms_whenSimplify_thenKeepTheSameExpr() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+
+        expr1.simplify();
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithVariablesRepeated_whenSimplify_thenVariable() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("X"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+
+        expr1.simplify();
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithConstantNulable_whenSimplify_thenExprWithNoConstant() {
+        Constant cte1 = buildConstant(aFloat(-1.1f));
+        Constant cte2 = buildConstant(aFloat(1.1f));
+        Constant cte3 = buildConstant(aFloat(0.0f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(cte2).build();
+        Expression result = new ExpressionBuilder().term(cte3).build();
+
+        expr1.simplify();
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void giveAnExpressionWithSeveralVariableRepeated_whenSimplify_thenAllVariableSimplified() {
+
+    }
+
+    @Test
+    public void giveAnExpressionWithVariableNulable_whenSimplify_thenExprWithoutThatVariable() {
+
     }
 }
