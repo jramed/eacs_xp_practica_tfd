@@ -67,8 +67,16 @@ public class ExpressionTest {
         assertFalse(expr2.empty());
     }
 
-    // \TODO add more test to test add(Expression) method, when getValue and
-    // GetNameSet are implemented
+    @Test
+    public void givenAnEmptyExpression_whenAddAnotherExpression_thenValuesCanBeGot() {
+        Expression expr1 = new Expression();
+        expr1.add(buildVariable(aFloat(0.023f), varName("X")));
+        expr1.add(buildConstant(aFloat(45f)));
+        Expression expr2 = new Expression();
+        expr2.add(expr1);
+        assertThat(45f, equalTo(aFloat(expr2.getValue())));
+        assertThat(0.023f, equalTo(aFloat(expr1.getValue(varName("X")))));
+    }
 
     @Test
     public void givenANonEmptyExpressionWithVarAndConstant_whenAskedForAValueNoName_thenReturnValue() {
@@ -90,6 +98,12 @@ public class ExpressionTest {
         Expression expr1 = new Expression();
         expr1.add(buildConstant(aFloat(88f)));
         assertThat(88f, equalTo(expr1.getValue()));
+    }
+
+    @Test(expected = AssertionError.class)
+    public void givenAnEmptyExpression_whenAskedForAValueWithNoName_thenAssertException() {
+        Expression expr1 = new Expression();
+        expr1.getValue();
     }
 
     @Test
@@ -121,4 +135,58 @@ public class ExpressionTest {
         assertThat(myNameSet, equalTo(nameSet));
     }
 
+    @Test(expected = AssertionError.class)
+    public void givenAnEmptyExpression_whenAskedForAValueWithName_thenAssertException() {
+        Expression expr1 = new Expression();
+        expr1.getValue(varName("X"));
+    }
+
+    @Test
+    public void givenAnExpressionWithMultipleVariableAndAConstant_WhenAskedForValueWithName_thenReturnValue() {
+        Expression expr1 = new Expression();
+        Variable var1 = buildVariable(aFloat(0.023f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-67f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(1.34f), varName("Z"));
+        expr1.add(var1);
+        expr1.add(var2);
+        expr1.add(var3);
+        expr1.add(buildConstant(aFloat(-52f)));
+        assertThat(var1.getValue(), equalTo(expr1.getValue(varName("X"))));
+        assertThat(var2.getValue(), equalTo(expr1.getValue(varName("Y"))));
+        assertThat(var3.getValue(), equalTo(expr1.getValue(varName("Z"))));
+
+    }
+
+    @Test
+    public void givenAnExpressionWithMultipleVariableAndAConstant_WhenAskedForValueWithNoName_thenReturnValue() {
+        Expression expr1 = new Expression();
+        Variable var1 = buildVariable(aFloat(0.023f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-67f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(1.34f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(-52f));
+        expr1.add(var1);
+        expr1.add(var2);
+        expr1.add(var3);
+        expr1.add(cte1);
+        assertThat(cte1.getValue(), equalTo(expr1.getValue()));
+    }
+
+    @Test
+    public void giveAnExpression_whenMultipleByAConstant_thenAllTermsAreMultiplyByTheNumber() {
+        Expression expr1 = new Expression();
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        expr1.add(var1);
+        expr1.add(var2);
+        expr1.add(var3);
+        expr1.add(cte1);
+        float aMultiplier = 5.5f;
+        expr1.multiply(aMultiplier);
+        assertThat((2f * aMultiplier), equalTo(expr1.getValue(varName("X"))));
+        assertThat((-3.5f * aMultiplier), equalTo(expr1.getValue(varName("Y"))));
+        assertThat((4.2f * aMultiplier), equalTo(expr1.getValue(varName("Z"))));
+        assertThat((5.1f * aMultiplier), equalTo(expr1.getValue()));
+    }
 }

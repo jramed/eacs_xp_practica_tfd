@@ -8,15 +8,15 @@ public class Expression {
     public List<Term> termList;
 
     public Expression() {
-        termList = new ArrayList<Term>();
+        this.termList = new ArrayList<Term>();
     }
 
     public boolean empty() {
-        return termList.isEmpty();
+        return this.termList.isEmpty();
     }
 
     public void add(Term term) {
-        termList.add(term);
+        this.termList.add(term);
     }
 
     public void add(Expression expr1) {
@@ -56,6 +56,12 @@ public class Expression {
         Set<String> myNameSet = new NamesExpressionAnalyzer(this.termList).getNameSet();
 
         return myNameSet;
+    }
+
+    public void multiply(float value) {
+        for (Term term : termList) {
+            term.multiply(value);
+        }
     }
 
 }
