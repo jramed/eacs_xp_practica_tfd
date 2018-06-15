@@ -386,11 +386,121 @@ public class ExpressionTest {
         Variable var1 = buildVariable(aFloat(2f), varName("X"));
         Variable var2 = buildVariable(aFloat(-2.0f), varName("X"));
         Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
-        Variable var4 = buildVariable(aFloat(-0.0f), varName("X"));
         Expression expr1 = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
         Expression result = new ExpressionBuilder().term(var3).build();
 
         expr1.simplify(varName("X"));
         assertTrue(expr1.equal(result));
     }
+
+    @Test
+    public void givenAnExpression_whenClon_thenGotNewExpression() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-2.0f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Expression expr1 = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
+
+        Expression expr2 = expr1.clon();
+        assertTrue(expr1.equal(expr2));
+    }
+
+    @Test
+    public void givenAnExpressionWithOnlyConstant_whenRequestHasName_thenReturnFalse() {
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).build();
+
+        assertFalse(expr1.hasName(varName("X")));
+    }
+
+    @Test
+    public void givenAnExpression_whenRequestANameDoesNotExist_thenReturnFalse() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+
+        assertFalse(expr1.hasName(varName("T")));
+    }
+
+    @Test
+    public void givenAnExpression_whenRequestANameExist_thenReturnTrue() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+
+        assertTrue(expr1.hasName(varName("X")));
+    }
+
+    @Test
+    public void givenAnEmptyExpresssion_whenApplyAValueForAVariable_thenTheExpressionIsStillEmpty() {
+        Expression expr1 = new Expression();
+        Expression result = new Expression();
+
+        expr1.apply(aFloat(2f), varName("X"));
+        assertTrue(expr1.equal(result));
+
+    }
+
+    @Test
+    public void givenAnExpresssionWithOnlyConstant_whenApplyAValueForAVariable_thenTheExpressionIsStillEmpty() {
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Expression expr1 = new ExpressionBuilder().term(cte1).build();
+        Expression result = new ExpressionBuilder().term(cte1).build();
+
+        expr1.apply(aFloat(2f), varName("X"));
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void givenAnExpresssion_whenApplyAValueForAVariable_thenTermIsWorkedOutAsConstant() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(5.1f));
+        Constant cte2 = buildConstant(aFloat(5.1f + (2f * 2f)));
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(cte2).term(var2).term(var3).build();
+
+        expr1.apply(aFloat(2f), varName("X"));
+        assertTrue(expr1.equal(result));
+    }
+
+    @Test
+    public void givenAnExpresssionContainsAVarWithTheSameName_whenApplyAValueForAVariable_thenTermIsWorkedOutAsConstant() {
+        Variable var1 = buildVariable(aFloat(2f), varName("Y"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(-3.5f * 2f));
+        Constant cte2 = buildConstant(aFloat(2f * 2f));
+        Expression expr1 = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
+        Expression result = new ExpressionBuilder().term(cte1).term(cte2).term(var3).build();
+
+        expr1.apply(aFloat(2f), varName("Y"));
+        assertFalse(expr1.equal(result));
+    }
+
+    @Test
+    public void givenAnEmptyExpression_whenTranslateToSTring_thenReturnEmptyString() {
+        Expression expr1 = new Expression();
+        String result = "";
+
+        assertThat(result, equalTo(expr1.toString()));
+    }
+
+    @Test
+    public void givenAnExpressionWithConstantAndVariables_whenTranslateToSTring_thenReturnExpressionAsString() {
+        Variable var1 = buildVariable(aFloat(2f), varName("X"));
+        Variable var2 = buildVariable(aFloat(-3.5f), varName("Y"));
+        Variable var3 = buildVariable(aFloat(4.2f), varName("Z"));
+        Constant cte1 = buildConstant(aFloat(5.1f));
+
+        Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
+        String result = "+5.1+2.0X-3.5Y+4.2Z";
+
+        assertThat(result, equalTo(expr1.toString()));
+    }
+
 }

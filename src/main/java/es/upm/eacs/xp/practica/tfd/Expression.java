@@ -59,6 +59,8 @@ public class Expression {
     }
 
     public void multiply(float value) {
+        assert !this.empty();
+
         for (Term term : termList) {
             term.multiply(value);
         }
@@ -147,6 +149,51 @@ public class Expression {
             resultEqual &= result;
         }
         return resultEqual;
+    }
+
+    public Expression clon() {
+        Expression expression = new Expression();
+        expression.add(this);
+        return expression;
+    }
+
+    public boolean hasName(String name) {
+        for (Term term : termList) {
+            if (term.hasName(name))
+                return true;
+        }
+        return false;
+    }
+
+    // precondition: the expression has been previously simplify for all the terms.
+    public void apply(float value, String name) {
+        Expression expression = new Expression();
+        Constant cte = null;
+
+        for (Term term : termList) {
+            if (term.hasName(name)) {
+                cte = new Constant(term.getValue() * value);
+            } else {
+                expression.add(term);
+            }
+        }
+        if (cte != null) {
+            expression.termList.add(cte);
+        }
+        if (expression.termList.size() > 0) {
+            expression.simplify();
+            this.termList = expression.termList;
+        }
+    }
+
+    @Override
+    public String toString() {
+        String output = "";
+        for (Term term : termList) {
+            output += term.toString();
+        }
+
+        return output;
     }
 
 }
