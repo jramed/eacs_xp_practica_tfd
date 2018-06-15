@@ -204,13 +204,13 @@ public class VariableTest {
     @Test
     public void givenABigPositiveVariable_whenToString_thenReturnTheValueAndNameAsASingleString() {
         Variable variable1 = new Variable(aFloat(100000.32f), varName("Var1"));
-        assertThat(variable1.toString(), equalTo("100000.32Var1"));
+        assertThat(variable1.toString(), equalTo("+100000.32Var1"));
     }
 
     @Test
     public void givenASmallPositiveVariable_whenToString_thenReturnTheValueAndNameAsASingleString() {
         Variable variable1 = new Variable(aFloat(0.000000000077f), varName("Var1"));
-        assertThat(variable1.toString(), equalTo("7.7E-11Var1"));
+        assertThat(variable1.toString(), equalTo("+7.7E-11Var1"));
     }
 
     @Test

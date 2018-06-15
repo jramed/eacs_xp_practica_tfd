@@ -50,6 +50,9 @@ public class Variable extends Term {
     @Override
     public String toString() {
         String theValue = Float.toString(this.value);
+        if (this.value >= 0) {
+            theValue = "+" + theValue;
+        }
 
         return theValue + this.name;
     }
