@@ -139,13 +139,13 @@ public class TermTest {
     @Test
     public void givenABigPositiveValue_whenToString_thenReturnTheValueAsASingleString() {
         Term term1 = new Term(aFloat(100000.32f));
-        assertThat(term1.toString(), equalTo("100000.32"));
+        assertThat(term1.toString(), equalTo("+100000.32"));
     }
 
     @Test
     public void givenASmallPositiveValue_whenToString_thenReturnTheValueAsASingleString() {
         Term term1 = new Term(aFloat(0.000000000077f));
-        assertThat(term1.toString(), equalTo("7.7E-11"));
+        assertThat(term1.toString(), equalTo("+7.7E-11"));
     }
 
     @Test

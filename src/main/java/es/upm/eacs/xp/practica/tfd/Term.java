@@ -38,7 +38,11 @@ public class Term {
 
     @Override
     public String toString() {
-        return Float.toString(this.value);
+        String output = Float.toString(this.value);
+        if (this.value >= 0) {
+            output = "+" + output;
+        }
+        return output;
     }
 
     public void multiply(float value) {
