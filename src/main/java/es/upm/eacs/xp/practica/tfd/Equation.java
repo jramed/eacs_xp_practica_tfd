@@ -10,8 +10,11 @@ public class Equation {
         this.rightExpression = new Expression();
     }
 
-    public Equation(Expression expression) {
-        this.leftExpression = expression;
+    public Equation(Expression[] expressions) {
+        this();
+
+        this.leftExpression.add(expressions[0]);
+        this.rightExpression.add(expressions[1]);
     }
 
     public boolean empty() {
@@ -21,6 +24,24 @@ public class Equation {
 
     public void add(Term term) {
         this.leftExpression.add(term);
+    }
+
+    public void add(Side side, Term term) {
+        if (Side.LEFT == side) {
+            this.leftExpression.add(term);
+        } else {
+            this.rightExpression.add(term);
+        }
+    }
+
+    public void add(Equation equation) {
+        this.leftExpression.add(equation.leftExpression.clon());
+        this.rightExpression.add(equation.rightExpression.clon());
+    }
+
+    public boolean equal(Equation equation) {
+        return this.leftExpression.equal(equation.leftExpression)
+                && this.rightExpression.equal(equation.rightExpression);
     }
 
 }
