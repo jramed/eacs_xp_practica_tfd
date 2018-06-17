@@ -21,7 +21,7 @@ public class Expression {
 
     public void add(Expression expr1) {
         for (Term term : expr1.termList) {
-            this.add(term.clon());
+            this.add(term);
         }
     }
 
