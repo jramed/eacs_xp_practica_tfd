@@ -112,4 +112,15 @@ public class EquationTest {
         assertTrue(equation1.equal(equationResult));
     }
 
+    @Test
+    public void givenANonEmptyEquation_whenMulplityByANumber_thenAllTermOfTheEquationAreMultiplyByThatNumber() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .build();
+        equation1.multiply(3f);
+
+        Equation equationResult = new EquationBuilder().term(9f).term(-3f, "X").term(-12f, "Y").assign().term(15f, "Z")
+                .build();
+
+        assertTrue(equation1.equal(equationResult));
+    }
 }

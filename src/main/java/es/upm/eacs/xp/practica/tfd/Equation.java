@@ -44,4 +44,10 @@ public class Equation {
                 && this.rightExpression.equal(equation.rightExpression);
     }
 
+    public void multiply(float value) {
+        this.leftExpression.multiply(value);
+        this.rightExpression.multiply(value);
+
+    }
+
 }
