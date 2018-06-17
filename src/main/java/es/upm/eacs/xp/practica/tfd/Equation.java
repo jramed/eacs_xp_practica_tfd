@@ -99,4 +99,9 @@ public class Equation {
         return theNameSet;
     }
 
+    public Equation clon() {
+        Expression[] expressions = new Expression[] { this.leftExpression.clon(), this.rightExpression.clon() };
+        return new Equation(expressions);
+    }
+
 }

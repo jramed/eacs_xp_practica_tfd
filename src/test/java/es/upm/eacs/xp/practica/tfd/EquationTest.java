@@ -304,4 +304,14 @@ public class EquationTest {
 
         Set<String> nameSet = equation1.getNameSet();
     }
+
+    @Test
+    public void givenANonEmptyEquation_whenRequestAClon_thenClonnedEquationEqualToOriginal() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .build();
+        Equation equation2 = equation1.clon();
+
+        assertTrue(equation1.equal(equation2));
+
+    }
 }
