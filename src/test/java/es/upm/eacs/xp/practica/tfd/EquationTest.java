@@ -302,7 +302,7 @@ public class EquationTest {
     public void givenAnEmptyEquation_whenGetNameSet_thenAssert() {
         Equation equation1 = new Equation();
 
-        Set<String> nameSet = equation1.getNameSet();
+        equation1.getNameSet();
     }
 
     @Test
@@ -312,6 +312,23 @@ public class EquationTest {
         Equation equation2 = equation1.clon();
 
         assertTrue(equation1.equal(equation2));
-
     }
+
+    @Test
+    public void givenAnEmptyEquation_whenRequestedToString_theReturnEmptyString() {
+        Equation equation1 = new Equation();
+        String result = "";
+
+        assertThat(result, equalTo(equation1.toString()));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenRequestedToString_theReturnString() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .build();
+        String result = "+3.0-1.0X-4.0Y = +5.0Z";
+
+        assertThat(result, equalTo(equation1.toString()));
+    }
+
 }

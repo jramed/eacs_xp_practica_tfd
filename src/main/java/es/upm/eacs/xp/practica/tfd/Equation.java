@@ -104,4 +104,13 @@ public class Equation {
         return new Equation(expressions);
     }
 
+    @Override
+    public String toString() {
+        if (!this.leftExpression.empty() || !this.rightExpression.empty()) {
+            return this.leftExpression.toString() + " = " + this.rightExpression.toString();
+        }
+
+        return "";
+    }
+
 }
