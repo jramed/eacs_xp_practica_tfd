@@ -1,7 +1,12 @@
 package es.upm.eacs.xp.practica.tfd;
 
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -112,6 +117,12 @@ public class EquationTest {
         assertTrue(equation1.equal(equationResult));
     }
 
+    @Test(expected = AssertionError.class)
+    public void givenAnEmptyEquation_whenMulplityByANumber_thenAssert() {
+        Equation equation1 = new Equation();
+        equation1.multiply(3f);
+    }
+
     @Test
     public void givenANonEmptyEquation_whenMulplityByANumber_thenAllTermOfTheEquationAreMultiplyByThatNumber() {
         Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
@@ -122,5 +133,175 @@ public class EquationTest {
                 .build();
 
         assertTrue(equation1.equal(equationResult));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenGetValueNameInRightSide_thenTheValuaAssociatedWithThatVarNameAreReturned() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .build();
+
+        assertThat(-1f, equalTo(equation1.getValue("X")));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenGetValueNameInLefttSide_thenTheValuaAssociatedWithThatVarNameAreReturned() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .build();
+
+        assertThat(5f, equalTo(equation1.getValue("Z")));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenGetValueNameButDoesNotExit_thenRerturned0f() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .build();
+
+        assertThat(0f, equalTo(equation1.getValue("T")));
+    }
+
+    @Test
+    public void givenAnEmptyEquation_whenGetValueNameButDoesNotExit_thenRerturned0f() {
+        Equation equation1 = new Equation();
+
+        assertThat(0f, equalTo(equation1.getValue("T")));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenGetValueFromLefttSide_thenTheConstantValueIsReturnedIfAny() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .build();
+
+        assertThat(3f, equalTo(equation1.getValue(Side.LEFT)));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenGetValueFromLefttSide_then0fValueIsReturnedIfAny() {
+        Equation equation1 = new EquationBuilder().term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z").term(3f)
+                .build();
+
+        assertThat(0f, equalTo(equation1.getValue(Side.LEFT)));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenGetValueFromRighttSide_then0FValueIsReturnedIfAny() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .build();
+
+        assertThat(0f, equalTo(equation1.getValue(Side.RIGHT)));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenGetValueFromRighttSide_thenTheConstantValueIsReturnedIfAny() {
+        Equation equation1 = new EquationBuilder().term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z").term(3f)
+                .build();
+
+        assertThat(3f, equalTo(equation1.getValue(Side.RIGHT)));
+    }
+
+    @Test(expected = AssertionError.class)
+    public void givenAnEmptyEquation_whenGetValueFromRight_thenAssert() {
+        Equation equation1 = new Equation();
+        equation1.getValue(Side.RIGHT);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void givenAnEmptyEquation_whenGetValueFromLeft_thenAssert() {
+        Equation equation1 = new Equation();
+        equation1.getValue(Side.LEFT);
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenSimplifyOnLefttSideWithNoVarName_thenConstantsAreSimplified() {
+        Equation equation1 = new EquationBuilder().term(-4f).term(67f).term(3f).term(-1f, "X").term(-4f, "Y").assign()
+                .term(5f, "Z").term(4f).term(-3f).build();
+        Equation equation2 = new EquationBuilder().term(66f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .term(4f).term(-3f).build();
+
+        equation1.simplify(Side.LEFT);
+
+        assertTrue(equation1.equal(equation2));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenSimplifyOnLeftSideWithNoVarName_thenConstantsAreSimplified() {
+        Equation equation1 = new EquationBuilder().term(-4f).term(67f).term(3f).term(-1f, "X").term(-4f, "Y").assign()
+                .term(5f, "Z").term(4f).term(-3f).build();
+        Equation equation2 = new EquationBuilder().term(-4f).term(67f).term(3f).term(-1f, "X").term(-4f, "Y").assign()
+                .term(5f, "Z").term(1f).build();
+
+        equation1.simplify(Side.RIGHT);
+
+        assertTrue(equation1.equal(equation2));
+    }
+
+    @Test(expected = AssertionError.class)
+    public void givenAnExpressionWithLeftSideEmptyAndRightSideNonEmpty_whenSimplifyLeftSide_thenAssert() {
+        Constant cte2 = buildConstant(aFloat(5f));
+        Expression[] expressions1 = new Expression[] { new Expression(), new ExpressionBuilder().term(cte2).build() };
+
+        Equation equation1 = new Equation(expressions1);
+        equation1.simplify(Side.LEFT);
+    }
+
+    @Test(expected = AssertionError.class)
+    public void givenAnExpressionWithLEfSideNonEmptyAndRightSideEmpty_whenSimplifyRightSide_thenAssert() {
+        Constant cte2 = buildConstant(aFloat(5f));
+
+        Expression[] expressions1 = new Expression[] { new ExpressionBuilder().term(cte2).build(), new Expression() };
+        Equation equation1 = new Equation(expressions1);
+        equation1.simplify(Side.RIGHT);
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenSimplifyOnLefttSideWithVarName_thenVariableIsSimplifiedIsLeftSide() {
+        Equation equation1 = new EquationBuilder().term(-4f).term(67f).term(3f).term(-1f, "X").term(-4f, "Y")
+                .term(82f, "Y").assign().term(5f, "Z").term(4f).term(-3f).build();
+        Equation equation2 = new EquationBuilder().term(-4f).term(67f).term(3f).term(-1f, "X").term(78f, "Y").assign()
+                .term(5f, "Z").term(4f).term(-3f).build();
+
+        equation1.simplify(Side.LEFT, "Y");
+
+        assertTrue(equation1.equal(equation2));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenSimplifyOnLeftSideWithVarName_thenVariableISSimplifiedInRight() {
+        Equation equation1 = new EquationBuilder().term(-4f).term(67f).term(3f).term(-1f, "X").term(4f, "X")
+                .term(-4f, "Y").term(1f, "Y").assign().term(5f, "Z").term(6.6f, "Z").term(4f).term(-3f).build();
+        Equation equation2 = new EquationBuilder().term(-4f).term(67f).term(3f).term(-1f, "X").term(4f, "X")
+                .term(-4f, "Y").term(1f, "Y").assign().term(11.6f, "Z").term(4f).term(-3f).build();
+
+        equation1.simplify(Side.RIGHT, "Z");
+
+        assertTrue(equation1.equal(equation2));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenGetNameSet_thenReturnASetWithAllVariableNames() {
+        Equation equation1 = new EquationBuilder().term(-4f).term(67f).term(3f).term(-1f, "X").term(4f, "X")
+                .term(-4f, "Y").term(1f, "Y").assign().term(5f, "Z").term(6.6f, "Z").term(4f).term(-3f).build();
+        Set<String> myNameSet = new HashSet<String>();
+        myNameSet.add("X");
+        myNameSet.add("Y");
+        myNameSet.add("Z");
+
+        Set<String> nameSet = equation1.getNameSet();
+        assertThat(myNameSet, equalTo(nameSet));
+    }
+
+    @Test
+    public void givenANonEmptyEquationWithOnlyConstants_whenGetNameSet_thenReturnAnEmptySetOfNames() {
+        Equation equation1 = new EquationBuilder().term(-4f).term(67f).term(3f).assign().term(4f).term(-3f).build();
+        Set<String> myNameSet = new HashSet<String>();
+
+        Set<String> nameSet = equation1.getNameSet();
+        assertThat(myNameSet, equalTo(nameSet));
+    }
+
+    @Test(expected = AssertionError.class)
+    public void givenAnEmptyEquation_whenGetNameSet_thenAssert() {
+        Equation equation1 = new Equation();
+
+        Set<String> nameSet = equation1.getNameSet();
     }
 }
