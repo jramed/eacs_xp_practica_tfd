@@ -138,8 +138,8 @@ public class VariableTest {
 
     @Test
     public void givenTwoValuesCloseToZero_whenValue1IsGreaterThanValue2AndSameName_thenNonEquals() {
-        Variable variable1 = new Variable(aFloat(0.0000001f), varName("x"));
-        Variable variable2 = new Variable(aFloat(-0.0000001f), varName("x"));
+        Variable variable1 = new Variable(aFloat(0.00001f), varName("x"));
+        Variable variable2 = new Variable(aFloat(-0.00001f), varName("x"));
         assertThat(variable1.getValue(), greaterThan(variable2.getValue()));
         assertFalse(variable1.equal(variable2));
 
@@ -147,19 +147,19 @@ public class VariableTest {
 
     @Test
     public void givenTwoNegativeValuesCloseToZero_whenValue1IsEqualThanValue2AndDifferentName_thenNonEquals() {
-        Variable variable1 = new Variable(aFloat(-0.0000001f), varName("x"));
-        Variable variable2 = new Variable(aFloat(-0.0000001f), varName("Z"));
+        Variable variable1 = new Variable(aFloat(-0.00001f), varName("x"));
+        Variable variable2 = new Variable(aFloat(-0.00001f), varName("Z"));
         assertThat(variable1.getValue(), equalTo(variable2.getValue()));
         assertFalse(variable1.equal(variable2));
 
     }
 
     @Test
-    public void givenTwoValuesEqualToZeroButDifferentSign_whenValue1IsEqualThanValue2_thenNonEquals() {
+    public void givenTwoValuesEqualToZeroButDifferentSign_whenValue1IsEqualThanValue2_thenEquals() {
         Variable variable1 = new Variable(aFloat(-0.00f), varName("x"));
         Variable variable2 = new Variable(aFloat(0.00f), varName("x"));
         assertThat(variable1.getValue(), lessThan(variable2.getValue()));
-        assertFalse(variable1.equal(variable2));
+        assertTrue(variable1.equal(variable2));
     }
 
     @Test

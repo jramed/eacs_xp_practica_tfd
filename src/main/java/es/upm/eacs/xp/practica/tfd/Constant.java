@@ -9,9 +9,9 @@ public class Constant extends Term {
     @Override
     public boolean equal(Term obj) {
         boolean sameObjectClass = obj instanceof Constant;
-        int sameValue = Float.compare(this.value, obj.getValue());
+        // int sameValue = Float.compare(this.value, obj.getValue());
 
-        return sameObjectClass && (sameValue == 0);
+        return sameObjectClass && super.equal(obj);
     }
 
     @Override

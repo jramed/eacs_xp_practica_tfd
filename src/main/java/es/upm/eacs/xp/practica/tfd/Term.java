@@ -5,7 +5,7 @@ import java.util.Set;
 //This class can be abstract and its method clon and dispatch also
 //By being not abstract we allow to test its methods
 //Though, if it is abstract we can test then in any of his derived classes.
-public class Term {
+public abstract class Term {
     protected float value;
 
     public Term(float value) {
@@ -17,16 +17,11 @@ public class Term {
     }
 
     public boolean equal(Term obj) {
-        boolean sameObjectClass = obj instanceof Term;
-        int sameValue = Float.compare(this.value, obj.getValue());
-        return sameObjectClass && (sameValue == 0);
+        boolean sameValue = (Math.abs(obj.getValue() - this.getValue()) <= 0.00001);
+        return sameValue;
     }
 
-    public Term clon() {
-        // the sub class must implement it
-        assert false;
-        return null;
-    }
+    public abstract Term clon();
 
     public boolean hasName(String varName) {
         return false;
@@ -49,8 +44,5 @@ public class Term {
         this.value = this.value * value;
     }
 
-    public void dispatch(TermVisitor termVisitor) {
-        // the sub class must implement it
-        assert false;
-    }
+    public abstract void dispatch(TermVisitor termVisitor);
 }

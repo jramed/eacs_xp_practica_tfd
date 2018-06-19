@@ -75,8 +75,8 @@ public class ConstantTest {
 
     @Test
     public void givenTwoContanstCloseToZero_whenCte1IsGreaterThanCt2_thenNonEquals() {
-        Constant constant1 = new Constant(aFloat(0.0000001f));
-        Constant constant2 = new Constant(aFloat(-0.0000001f));
+        Constant constant1 = new Constant(aFloat(0.00001f));
+        Constant constant2 = new Constant(aFloat(-0.00001f));
         assertThat(constant1.getValue(), greaterThan(constant2.getValue()));
         assertFalse(constant1.equal(constant2));
 
@@ -84,19 +84,19 @@ public class ConstantTest {
 
     @Test
     public void givenTwoNegativeContanstCloseToZero_whenCte1IsEqualThanCt2_thenEquals() {
-        Constant constant1 = new Constant(aFloat(-0.0000001f));
-        Constant constant2 = new Constant(aFloat(-0.0000001f));
+        Constant constant1 = new Constant(aFloat(-0.00001f));
+        Constant constant2 = new Constant(aFloat(-0.00001f));
         assertThat(constant1.getValue(), equalTo(constant2.getValue()));
         assertTrue(constant1.equal(constant2));
 
     }
 
     @Test
-    public void givenTwoContanst_whenEqualToZeroButDiffenteSign_thenNonEquals() {
+    public void givenTwoContanst_whenEqualToZeroButDiffenteSign_thenEquals() {
         Constant constant1 = new Constant(aFloat(-0.00f));
         Constant constant2 = new Constant(aFloat(0.00f));
         assertThat(constant1.getValue(), lessThan(constant2.getValue()));
-        assertFalse(constant1.equal(constant2));
+        assertTrue(constant1.equal(constant2));
     }
 
     @Test
@@ -130,4 +130,5 @@ public class ConstantTest {
         assertThat(constant1.getValue(), equalTo(constant2.getValue()));
         assertTrue(constant1.equal(constant2));
     }
+
 }
