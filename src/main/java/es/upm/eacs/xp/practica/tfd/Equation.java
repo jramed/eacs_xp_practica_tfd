@@ -43,8 +43,14 @@ public class Equation {
     }
 
     public boolean equal(Equation equation) {
-        return this.leftExpression.equal(equation.leftExpression)
+        boolean identical = this.leftExpression.equal(equation.leftExpression)
                 && this.rightExpression.equal(equation.rightExpression);
+        boolean reverse = false;
+        if (!identical) {
+            reverse = this.leftExpression.equal(equation.rightExpression)
+                    && this.rightExpression.equal(equation.leftExpression);
+        }
+        return identical || reverse;
     }
 
     public void multiply(float value) {
