@@ -315,7 +315,7 @@ public class EquationTest {
     }
 
     @Test
-    public void givenAnEmptyEquation_whenRequestedToString_theReturnEmptyString() {
+    public void givenAnEmptyEquation_whenRequestedToString_thenReturnEmptyString() {
         Equation equation1 = new Equation();
         String result = "";
 
@@ -323,7 +323,7 @@ public class EquationTest {
     }
 
     @Test
-    public void givenANonEmptyEquation_whenRequestedToString_theReturnString() {
+    public void givenANonEmptyEquation_whenRequestedToString_thenReturnString() {
         Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
                 .build();
         String result = "+3.0-1.0X-4.0Y = +5.0Z";
@@ -331,4 +331,38 @@ public class EquationTest {
         assertThat(result, equalTo(equation1.toString()));
     }
 
+    @Test
+    public void givenAnEmptyEquation_whenApplyAValueForAVariable_thenEquationNotModified() {
+        Equation equation1 = new Equation();
+        Equation equation2 = new Equation();
+
+        equation1.apply(3f, "X");
+        assertTrue(equation1.equal(equation2));
+    }
+
+    @Test
+    public void givenAnEquation_whenApplyAValueForAVariable_thenVariableSusbtituted() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .term(2f, "X").build();
+        equation1.apply(5.3f, "X");
+
+        Equation equation2 = new EquationBuilder().term(-2.3f).term(-4f, "Y").assign().term(5f, "Z").term(10.6f)
+                .build();
+
+        assertTrue(equation1.equal(equation2));
+
+    }
+
+    @Test
+    public void givenAnEquation_whenApplyAValueForAVariableDoesNotExit_thenNotModified() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .term(2f, "X").build();
+        equation1.apply(5.3f, "T");
+
+        Equation equation2 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .term(2f, "X").build();
+
+        assertTrue(equation1.equal(equation2));
+
+    }
 }

@@ -113,4 +113,9 @@ public class Equation {
         return "";
     }
 
+    public void apply(float value, String name) {
+        this.leftExpression.apply(value, name);
+        this.rightExpression.apply(value, name);
+    }
+
 }
