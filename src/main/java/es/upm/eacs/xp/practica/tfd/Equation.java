@@ -118,4 +118,10 @@ public class Equation {
         this.rightExpression.apply(value, name);
     }
 
+    public void invert() {
+        Expression copy = this.leftExpression.clon();
+        this.leftExpression = this.rightExpression.clon();
+        this.rightExpression = copy;
+    }
+
 }

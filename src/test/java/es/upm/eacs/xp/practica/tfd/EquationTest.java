@@ -363,6 +363,27 @@ public class EquationTest {
                 .term(2f, "X").build();
 
         assertTrue(equation1.equal(equation2));
-
     }
+
+    @Test
+    public void givenAnEmptyEquation_whenInvert_thenEquationIsEmpty() {
+        Equation equation1 = new Equation();
+        Equation equation2 = new Equation();
+
+        equation1.invert();
+        assertTrue(equation1.equal(equation2));
+    }
+
+    @Test
+    public void givenANonEmptyEquation_whenInvert_thenLeftSideBecamesRightAndViceversa() {
+        Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
+                .term(2f, "X").build();
+        equation1.invert();
+
+        Equation equation2 = new EquationBuilder().term(5f, "Z").term(2f, "X").assign().term(3f).term(-1f, "X")
+                .term(-4f, "Y").build();
+
+        assertTrue(equation1.equal(equation2));
+    }
+
 }
