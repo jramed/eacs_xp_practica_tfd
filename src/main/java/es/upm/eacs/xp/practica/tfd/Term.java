@@ -8,7 +8,7 @@ import java.util.Set;
 public abstract class Term {
     protected float value;
 
-    public Term(float value) {
+    protected Term(float value) {
         this.value = value;
     }
 
