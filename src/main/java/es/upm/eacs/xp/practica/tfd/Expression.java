@@ -11,7 +11,7 @@ public class Expression {
         this.termList = new ArrayList<Term>();
     }
 
-    public boolean empty() {
+    private boolean empty() {
         return this.termList.isEmpty();
     }
 

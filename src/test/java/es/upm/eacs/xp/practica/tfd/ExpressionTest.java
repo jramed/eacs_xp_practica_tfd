@@ -29,45 +29,6 @@ public class ExpressionTest {
     }
 
     @Test
-    public void givenAnExpression_whenHasNoTerms_thenEmpty() {
-        Expression expr = new Expression();
-        assertTrue(expr.empty());
-    }
-
-    @Test
-    public void givenAnExpression_whenHasOneConstant_thenNoEmpty() {
-        Expression expr = new Expression();
-        expr.add(buildConstant(aFloat(33.33f)));
-        assertFalse(expr.empty());
-    }
-
-    @Test
-    public void givenAnExpression_whenHasOneVariable_thenNoEmpty() {
-        Expression expr = new Expression();
-        expr.add(buildVariable(aFloat(-9.23f), varName("X")));
-        assertFalse(expr.empty());
-    }
-
-    @Test
-    public void givenAnExpression_whenHasOneVariableAndOneConstant_thenNoEmpty() {
-        Expression expr = new Expression();
-        expr.add(buildVariable(aFloat(0.023f), varName("X")));
-        expr.add(buildConstant(aFloat(45f)));
-        assertFalse(expr.empty());
-
-    }
-
-    @Test
-    public void givenAnEmptyExpression_whenAddAnotherExpression_thenNoEmpty() {
-        Expression expr1 = new Expression();
-        expr1.add(buildVariable(aFloat(0.023f), varName("X")));
-        expr1.add(buildConstant(aFloat(45f)));
-        Expression expr2 = new Expression();
-        expr2.add(expr1);
-        assertFalse(expr2.empty());
-    }
-
-    @Test
     public void givenAnEmptyExpression_whenAddAnotherExpression_thenValuesCanBeGot() {
         Expression expr1 = new Expression();
         expr1.add(buildVariable(aFloat(0.023f), varName("X")));
