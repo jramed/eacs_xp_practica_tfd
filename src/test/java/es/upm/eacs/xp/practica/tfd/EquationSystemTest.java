@@ -95,7 +95,7 @@ public class EquationSystemTest {
         equationSystem1.set(new ReductionMethod());
         equationSystem1.resolve();
 
-        // assertEquals(0.73684216, equationSystem1.getSolution("X"), precission);
+        assertEquals(0.73684216, equationSystem1.getSolution("X"), precission);
         assertEquals(0.6315789, equationSystem1.getSolution("Y"), precission);
 
     }

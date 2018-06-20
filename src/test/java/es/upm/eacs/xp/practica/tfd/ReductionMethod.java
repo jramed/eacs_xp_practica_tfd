@@ -35,35 +35,75 @@ public class ReductionMethod extends SolutionMethod {
         equationSystem.copyBefore();
         System.out.println("After duplicate last equation " + equationSystem.toString());
 
-        // Get the last equation #5 (#4) and add equation #3
+        // Get the last equation #5 (#4) and add equation #3 (5-3 = 2 remember base 0)
         equationSystem.getLast().add(equationSystem.getLast(3));
-        System.out.println(" " + equationSystem.toString());
+        System.out.println("After sum equations 3 and 4" + equationSystem.toString());
 
         // Duplicate equation #5
         // #6
         equationSystem.copyBefore();
+        // Simplify left side using First Variable name
         equationSystem.getLast().simplify(Side.LEFT, firstName);
+        System.out.println("After simplify left side the variable " + firstName + equationSystem.toString());
+
+        // Duplicate equation #6
         // #7
         equationSystem.copyBefore();
+        // Simplify left side by using seconds variable name
         equationSystem.getLast().simplify(Side.LEFT, secondName);
+        System.out.println("After simplify left side the variable " + secondName + equationSystem.toString());
+
+        // Duplicate equation #7
         // #8
         equationSystem.copyBefore();
+        // Simplify Constant on the right side
         equationSystem.getLast().simplify(Side.RIGHT);
+        System.out.println("After simplify right side: " + equationSystem.toString());
+
+        // Duplicate equation #8
         // #9
         equationSystem.copyBefore();
+        // Worked out variable secondName
         equationSystem.getLast().multiply(1 / equationSystem.getLast(2).getValue(secondName));
+        System.out.println("After worked out variable " + secondName + equationSystem.toString());
+
         equationSystem.setSolution(secondName, equationSystem.getLast());
 
+        // Duplicate equation #1
+        // #10
         equationSystem.copyBefore(9);
+        // Get value of the secondName variable. 2 -> before the last, 1 -> last
         equationSystem.getLast().apply(secondName, equationSystem.getLast(2).getValue(Side.RIGHT));
+        System.out.println("Apply value " + equationSystem.getLast(2).getValue(Side.RIGHT) + " of  variable "
+                + secondName + equationSystem.toString());
+
+        // Duplicate equation #10
+        // #11
         equationSystem.copyBefore();
+        // Obtain the constant from the left side of the before the last equation and
+        // add the opposite to left side.
         equationSystem.getLast().add(new Constant(-equationSystem.getLast(2).getValue(Side.LEFT)));
+        System.out.println("After  " + equationSystem.toString());
+
+        // Duplicate equation #11
+        // #12
         equationSystem.copyBefore();
+        // Simplify left side to reduce the constant
         equationSystem.getLast().simplify(Side.LEFT);
+
+        // Duplicate equation #12
+        // #13
         equationSystem.copyBefore();
+        // Simplify right side to reduce the constant
         equationSystem.getLast().simplify(Side.RIGHT);
+
+        // Duplicate equation #13
+        // #14
         equationSystem.copyBefore();
+        // Work out the variable firstName
         equationSystem.getLast().multiply(1 / equationSystem.getLast(2).getValue(firstName));
+        System.out.println("After worked out variable " + firstName + equationSystem.toString());
+
         equationSystem.setSolution(firstName, equationSystem.getLast());
     }
 
