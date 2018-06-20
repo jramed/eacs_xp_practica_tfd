@@ -105,6 +105,17 @@ public class EquationTest {
     }
 
     @Test
+    public void givenAnEquation_whenAddATermToBothSide_thenEqualToTheSameEquation() {
+        Equation equation1 = new EquationBuilder().term(3.4f).term(1f, "X").term(-4.5f, "Y").assign().term(-8.1f, "Z")
+                .build();
+        equation1.add(buildConstant(-9f));
+
+        Equation equation2 = new EquationBuilder().term(3.4f).term(-9f).term(1f, "X").term(-4.5f, "Y").assign()
+                .term(-8.1f, "Z").term(-9f).build();
+        assertTrue(equation1.equal(equation2));
+    }
+
+    @Test
     public void givenAnEmptyEquation_whenAddAnEquation_thenEqualToTheSameEquation() {
         Equation equation1 = new Equation();
         Equation equation2 = new EquationBuilder().term(3.4f).term(-9f).term(1f, "X").term(-4.5f, "Y").assign()

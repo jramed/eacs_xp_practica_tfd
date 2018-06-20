@@ -22,6 +22,7 @@ public class Equation {
 
     public void add(Term term) {
         this.leftExpression.add(term);
+        this.rightExpression.add(term);
     }
 
     public void add(Side side, Term term) {
