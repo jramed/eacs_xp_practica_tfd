@@ -66,7 +66,7 @@ public class Equation {
         return 0.0f;
     }
 
-    public Object getValue(Side side) {
+    public float getValue(Side side) {
         if (Side.LEFT == side) {
             return this.leftExpression.getValue();
         } else if (Side.RIGHT == side) {
