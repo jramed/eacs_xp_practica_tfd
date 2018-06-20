@@ -113,7 +113,7 @@ public class Equation {
         return this.leftExpression.toString() + " = " + this.rightExpression.toString();
     }
 
-    public void apply(float value, String name) {
+    public void apply(String name, float value) {
         this.leftExpression.apply(value, name);
         this.rightExpression.apply(value, name);
     }

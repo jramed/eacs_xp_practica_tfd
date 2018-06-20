@@ -347,7 +347,7 @@ public class EquationTest {
         Equation equation1 = new Equation();
         Equation equation2 = new Equation();
 
-        equation1.apply(3f, "X");
+        equation1.apply("X", 3f);
         assertTrue(equation1.equal(equation2));
     }
 
@@ -355,7 +355,7 @@ public class EquationTest {
     public void givenAnEquation_whenApplyAValueForAVariable_thenVariableSusbtituted() {
         Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
                 .term(2f, "X").build();
-        equation1.apply(5.3f, "X");
+        equation1.apply("X", 5.3f);
 
         Equation equation2 = new EquationBuilder().term(-2.3f).term(-4f, "Y").assign().term(5f, "Z").term(10.6f)
                 .build();
@@ -368,7 +368,7 @@ public class EquationTest {
     public void givenAnEquation_whenApplyAValueForAVariableDoesNotExit_thenNotModified() {
         Equation equation1 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
                 .term(2f, "X").build();
-        equation1.apply(5.3f, "T");
+        equation1.apply("T", 5.3f);
 
         Equation equation2 = new EquationBuilder().term(3f).term(-1f, "X").term(-4f, "Y").assign().term(5f, "Z")
                 .term(2f, "X").build();
