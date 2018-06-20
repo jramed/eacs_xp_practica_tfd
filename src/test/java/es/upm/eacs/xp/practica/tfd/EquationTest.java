@@ -328,7 +328,7 @@ public class EquationTest {
     @Test
     public void givenAnEmptyEquation_whenRequestedToString_thenReturnEmptyString() {
         Equation equation1 = new Equation();
-        String result = "";
+        String result = " = ";
 
         assertThat(result, equalTo(equation1.toString()));
     }

@@ -20,11 +20,6 @@ public class Equation {
         this.rightExpression.add(expressions[1]);
     }
 
-    public boolean empty() {
-
-        return leftExpression.empty() && rightExpression.empty();
-    }
-
     public void add(Term term) {
         this.leftExpression.add(term);
     }
@@ -115,11 +110,7 @@ public class Equation {
 
     @Override
     public String toString() {
-        if (!this.leftExpression.empty() || !this.rightExpression.empty()) {
-            return this.leftExpression.toString() + " = " + this.rightExpression.toString();
-        }
-
-        return "";
+        return this.leftExpression.toString() + " = " + this.rightExpression.toString();
     }
 
     public void apply(float value, String name) {
