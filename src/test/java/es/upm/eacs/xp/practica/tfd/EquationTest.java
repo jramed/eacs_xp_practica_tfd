@@ -76,7 +76,7 @@ public class EquationTest {
         Equation equation1 = new EquationBuilder().term(3.4f).term(1f, "X").term(-4.5f, "Y").assign().term(-8.1f, "Z")
                 .build();
 
-        Equation equation2 = new EquationBuilder().term(-8.1f, "Z").assign().term(3.4f).term(1f, "X").term(-4.5f, "Y")
+        Equation equation2 = new EquationBuilder().term(8.1f, "Z").assign().term(-3.4f).term(-1f, "X").term(4.5f, "Y")
                 .build();
 
         assertTrue(equation1.equal(equation2));

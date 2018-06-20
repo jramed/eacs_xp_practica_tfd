@@ -47,8 +47,11 @@ public class Equation {
                 && this.rightExpression.equal(equation.rightExpression);
         boolean reverse = false;
         if (!identical) {
-            reverse = this.leftExpression.equal(equation.rightExpression)
-                    && this.rightExpression.equal(equation.leftExpression);
+            Expression expressionL = equation.leftExpression.clon();
+            expressionL.multiply(-1f);
+            Expression expressionR = equation.rightExpression.clon();
+            expressionR.multiply(-1f);
+            reverse = this.leftExpression.equal(expressionR) && this.rightExpression.equal(expressionL);
         }
         return identical || reverse;
     }
