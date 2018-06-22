@@ -166,7 +166,7 @@ public class Expression {
     }
 
     // precondition: the expression has been previously simplify for all the terms.
-    public void apply(float value, String name) {
+    public void apply(String name, float value) {
         Expression expression = new Expression();
         Constant cte = null;
 

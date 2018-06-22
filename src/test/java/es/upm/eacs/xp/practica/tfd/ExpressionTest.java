@@ -400,7 +400,7 @@ public class ExpressionTest {
         Expression expr1 = new Expression();
         Expression result = new Expression();
 
-        expr1.apply(aFloat(2f), varName("X"));
+        expr1.apply(varName("X"), aFloat(2f));
         assertTrue(expr1.equal(result));
 
     }
@@ -411,7 +411,7 @@ public class ExpressionTest {
         Expression expr1 = new ExpressionBuilder().term(cte1).build();
         Expression result = new ExpressionBuilder().term(cte1).build();
 
-        expr1.apply(aFloat(2f), varName("X"));
+        expr1.apply(varName("X"), aFloat(2f));
         assertTrue(expr1.equal(result));
     }
 
@@ -425,7 +425,7 @@ public class ExpressionTest {
         Expression expr1 = new ExpressionBuilder().term(cte1).term(var1).term(var2).term(var3).build();
         Expression result = new ExpressionBuilder().term(cte2).term(var2).term(var3).build();
 
-        expr1.apply(aFloat(2f), varName("X"));
+        expr1.apply(varName("X"), aFloat(2f));
         assertTrue(expr1.equal(result));
     }
 
@@ -439,7 +439,7 @@ public class ExpressionTest {
         Expression expr1 = new ExpressionBuilder().term(var1).term(var2).term(var3).build();
         Expression result = new ExpressionBuilder().term(cte1).term(cte2).term(var3).build();
 
-        expr1.apply(aFloat(2f), varName("Y"));
+        expr1.apply(varName("Y"), aFloat(2f));
         assertFalse(expr1.equal(result));
     }
 
