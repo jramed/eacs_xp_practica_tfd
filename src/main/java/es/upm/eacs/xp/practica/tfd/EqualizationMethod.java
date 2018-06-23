@@ -8,6 +8,8 @@ public class EqualizationMethod extends SolutionMethod {
     // Awfully huge method just to follow the design provided
     // Comments left to indicate what do every part and facilitate a future
     // refactoring
+    // this was a try to do it in a different way that the one used in Reduction method
+    // The code is bigger.
 
     // Works partially if equation is x+y=cte
     @Override
@@ -106,17 +108,27 @@ public class EqualizationMethod extends SolutionMethod {
 
             // Move other variables from left to right
             Iterator<String> nameSetIterator = equationClon.getNameSet().iterator();
-            while (nameSetIterator.hasNext()) {
-                String varName = nameSetIterator.next();
-                if (varName != variableNames[0]) {
-                    Variable variable = new Variable(-equationClon.members.get(Side.LEFT).getValue(varName), varName);
-                    equationClon.add(Side.LEFT, variable);
-                    equationClon.add(Side.RIGHT, variable);
-                    equationClon.simplify(Side.LEFT, varName);
-                    equationClon.simplify(Side.RIGHT, varName);
+            //if (equationClon.getNameSet().size() > 1 ) {
+                while (nameSetIterator.hasNext()) {
+                    String varName = nameSetIterator.next();
+                    if (varName != variableNames[0]) {
+                        Variable variable = new Variable(-equationClon.members.get(Side.LEFT).getValue(varName), varName);
+                        equationClon.add(Side.LEFT, variable);
+                        equationClon.add(Side.RIGHT, variable);
+                        equationClon.simplify(Side.LEFT, varName);
+                        equationClon.simplify(Side.RIGHT, varName);
+                    }
                 }
-            }
+            //}
+            
             System.out.println("Equation after move variable: " + equationClon.toString());
+            for (Side side: Side.values()) {
+                if (equationClon.members.get(side) == null) {
+                    Expression expression = new Expression();
+                    expression.add(new Constant(0f));
+                    equationClon.members.put(side, expression);
+                }
+            } 
             
             eqSysIsolateVariable.add(equationClon);
         }

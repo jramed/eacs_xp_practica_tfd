@@ -146,7 +146,6 @@ public class EquationSystemTest {
         assertEquals(33.5, equationSystem1.getSolution("Y"), precission);
     }
 
-    // does not work
     @Test
     public void givenAndEquationSystem_whenResolveByEqualizationMethod_ThenProvideSolution() {
         float precission = 0.00001f;
@@ -185,6 +184,7 @@ public class EquationSystemTest {
         assertEquals(0.13636364, equationSystem1.getSolution("Y"), precission);
     }
     
+    //This test fails
     @Test
     public void givenAndEquationSystem_whenResolveByEqualizationMethod_ThenProvideSolutionEjemplo3() {
         float precission = 0.00001f;
