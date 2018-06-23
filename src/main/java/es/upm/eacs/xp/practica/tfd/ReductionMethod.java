@@ -7,7 +7,7 @@ public class ReductionMethod extends SolutionMethod {
     @Override
     public void resolve() {
         assert equationSystem.getNameSet().size() == equationSystem.equationList.size()
-                && equationSystem.getNameSet().size() >= 2 && equationSystem.getNameSet().size() >= 1;
+                && equationSystem.getNameSet().size() == 2;
 
         Iterator<String> nameIterator = equationSystem.getNameSet().iterator();
         String firstName = nameIterator.next();
@@ -17,7 +17,8 @@ public class ReductionMethod extends SolutionMethod {
         int sizeOfEquationSystem = equationSystem.equationList.size();
         float value1 = equationSystem.getLast(sizeOfEquationSystem).getValue(firstName);
         float value2 = equationSystem.getLast().getValue(firstName);
-        System.out.print("FirstName value= " + value1 + "\nfirstName value= " + value2);
+        System.out
+                .print("FirstName value in equation1= " + value1 + "\nfirstName value in equation2= " + value2 + "\n");
 
         // multiply each equation with the value of the variable to reduce
         // the sign of one of the value is changed
@@ -27,7 +28,7 @@ public class ReductionMethod extends SolutionMethod {
         // #4
         equationSystem.copyBefore(sizeOfEquationSystem);
         equationSystem.getLast().multiply(-value1);
-        System.out.println("After multiply by value of variable " + equationSystem.toString());
+        System.out.println("After multiply by value of variable " + equationSystem.toString() + "\n");
 
         // Duplicate the last equation in the system
         // the number #4
