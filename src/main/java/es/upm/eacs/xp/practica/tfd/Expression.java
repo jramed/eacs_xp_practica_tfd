@@ -112,19 +112,16 @@ public class Expression {
     public boolean equal(Expression expression) {
 
         if (this == expression) {
-            System.out.println("expression equal");
             return true;
         }
 
         if (expression == null) {
-            System.out.println("Expression null");
             return false;
         }
 
         // We could simplify both expression before do the comparison
         // but that should be done before calling to this method
         if (this.termList.size() != expression.termList.size()) {
-            System.out.println("Size different: " + this.termList.size() + " versus " + expression.termList.size());
             return false;
         }
 
@@ -134,8 +131,6 @@ public class Expression {
             boolean isEqual = false;
             for (Term termObj : expression.termList)
                 if (termThis.equal(termObj)) {
-                    System.out.println(
-                            "Term : " + termObj.getValue() + " is in the set of this.terms: " + termThis.getValue());
                     isEqual = true;
                     break;
                 }
@@ -145,7 +140,6 @@ public class Expression {
 
         boolean resultEqual = true;
         for (boolean result : results) {
-            System.out.println("previous equality: " + resultEqual + " the result for this term is: " + result);
             resultEqual &= result;
         }
         return resultEqual;

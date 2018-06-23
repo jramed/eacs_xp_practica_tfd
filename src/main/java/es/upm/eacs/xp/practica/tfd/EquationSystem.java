@@ -46,7 +46,6 @@ public class EquationSystem {
 
         boolean resultEqual = true;
         for (boolean result : results) {
-            System.out.println("previous equality: " + resultEqual + " the result for this term is: " + result);
             resultEqual &= result;
         }
         return resultEqual;
